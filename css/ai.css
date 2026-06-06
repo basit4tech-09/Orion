@@ -45,6 +45,60 @@
   line-height: 1.65;
   color: var(--text);
 }
+/* ══════════════════════════════════════
+   AI FORMATTING (HEADERS & PARAGRAPHS)
+   ══════════════════════════════════════ */
+
+/* Spacing between text paragraphs */
+.msg-bubble p, 
+.rater-result p, 
+.top10-result p {
+  margin-bottom: 0.85rem;
+}
+
+/* Ensure the absolute last line doesn't add accidental extra gap space */
+.msg-bubble p:last-child, 
+.rater-result p:last-child, 
+.top10-result p:last-child {
+  margin-bottom: 0;
+}
+
+/* AI Big Headers (### Header) */
+.msg-bubble h1, .msg-bubble h2, .msg-bubble h3,
+.rater-result h3, .top10-result h3 {
+  display: block;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--blue); /* Draws attention cleanly to the title section */
+  margin-top: 1.1rem;
+  margin-bottom: 0.4rem;
+}
+
+/* AI Smaller Titles/Sub-headers */
+.msg-bubble h4, .msg-bubble h5, .msg-bubble h6 {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-top: 0.9rem;
+  margin-bottom: 0.3rem;
+}
+
+/* Adjust the first header spacing if it starts at the very top of the bubble */
+.msg-bubble h1:first-child, .msg-bubble h2:first-child, .msg-bubble h3:first-child {
+  margin-top: 0;
+}
+
+/* Lists formatting (Like Top 10 lists) */
+.msg-bubble ul, .msg-bubble ol,
+.rater-result ul, .top10-result ol {
+  margin-bottom: 0.85rem;
+  padding-left: 1.25rem;
+}
+
+.msg-bubble li, .rater-result li, .top10-result li {
+  margin-bottom: 0.35rem;
+  line-height: 1.6;
+}
 
 .ai-msg .msg-bubble {
   background-color: var(--white);
