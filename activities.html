@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Activities — Orion</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" href="css/activities.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="dash-nav">
+    <div class="dash-nav-inner">
+      <a href="dashboard.html" class="logo">Or<span>ion</span></a>
+      <ul class="dash-links">
+        <li><a href="dashboard.html">🏠 Home</a></li>
+        <li><a href="activities.html" class="active">✅ Activities</a></li>
+        <li><a href="timer.html">⏱️ Timer</a></li>
+        <li><a href="ai.html">🤖 AI</a></li>
+      </ul>
+      <div class="dash-nav-right">
+        <span class="nav-username" id="nav-username"></span>
+        <button class="logout-btn" id="logout-btn">Logout</button>
+      </div>
+      <button class="hamburger" id="hamburger">&#9776;</button>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="dash-main">
+
+    <!-- HEADER -->
+    <section class="page-header">
+      <div>
+        <h1>My Activities ✅</h1>
+        <p id="activity-date"></p>
+      </div>
+      <div class="progress-wrap">
+        <span id="progress-text">0 of 0 done</span>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ADD ACTIVITY -->
+    <section class="add-section card">
+      <h2>Add New Activity</h2>
+      <form class="add-form" id="add-form">
+        <input
+          type="text"
+          id="activity-input"
+          placeholder="e.g. Read One Piece Chapter 1100"
+          maxlength="80"
+          autocomplete="off"
+          required
+        />
+        <select id="activity-category">
+          <option value="general">📌 General</option>
+          <option value="anime">🎌 Anime</option>
+          <option value="work">💼 Work</option>
+          <option value="fitness">💪 Fitness</option>
+          <option value="personal">👤 Personal</option>
+        </select>
+        <button type="submit" class="btn-primary">+ Add Activity</button>
+      </form>
+    </section>
+
+    <!-- FILTER TABS -->
+    <div class="filter-tabs">
+      <button class="tab-btn active" data-filter="all">All</button>
+      <button class="tab-btn" data-filter="pending">⏳ Pending</button>
+      <button class="tab-btn" data-filter="done">✅ Done</button>
+    </div>
+
+    <!-- ACTIVITY LIST -->
+    <section class="activity-list" id="activity-list"></section>
+
+  </main>
+
+  <script src="js/activities.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,126 @@
+/* ── RESET ── */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #0d1321;
+  color: #f0f0f0;
+  line-height: 1.7;
+}
+
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+
+/* ── VARIABLES ── */
+:root {
+ --blue: #6366f1;
+  --blue-dark: #4f46e5;
+  --blue-light: #eef2ff;
+  --blue-mid: #c7d2fe;
+  --white: #ffffff;
+  --text: #1a1a2e;
+  --grey: #9ea7b7;
+  --border: #dbeafe;
+  --card: #ffffff;
+  --success: #22c55e;
+}
+
+/* ── SHARED BUTTON ── */
+.btn-primary {
+  display: inline-block;
+  background:  linear-gradient(135deg,#8a2be2,#4a00e0,#1f40e6);
+  color: var(--white);
+  padding: 0.85rem 2rem;
+  border-radius: 10px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  width: 100%;
+}
+
+.btn-primary:hover {
+  background-color: var(--blue-dark);
+  transform: translateY(-2px);
+}
+/* ── ORBS ── */
+.orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(40px);
+  opacity: 0.33;
+  animation: floatOrb linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.orb-1 {
+  width: 400px;
+  height: 400px;
+  background: #6366f1;
+  top: -100px;
+  left: -100px;
+  animation-duration: 2s;
+}
+
+
+.orb-2 {
+  width: 350px;
+  height: 350px;
+  background: #818cf8;
+  bottom: -80px;
+  right: -80px;
+  animation-duration: 3s;
+}
+
+.orb-3 {
+  width: 250px;
+  height: 250px;
+  background: #38bdf8;
+  top: 50%;
+  left: 50%;
+  animation-duration: 2s;
+}
+.orb-4 {
+  width: 400px;
+  height: 400px;
+  background: #6366f1;
+  top: 20%;
+  left: 50%;
+  animation-duration: 3s;
+}
+.orb-5 {
+  width: 250px;
+  height: 250px;
+  background:#8a2be2;
+  top: -40px;
+  left: -40px;
+  animation-duration: 2s;
+}
+
+@keyframes floatOrb {
+  0%   { transform: translate(0, 0) scale(1); }
+  33%  { transform: translate(40px, -40px) scale(1.1); }
+  66%  { transform: translate(-30px, 30px) scale(0.95); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+/* Make sure login card stays above orbs 
+.login-wrapper { position: relative; z-index: 1; }*/
+
+/* ── SHARED CARD ── */
+.card {
+  background-color: var(--card);
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(59,130,246,0.07);
+}

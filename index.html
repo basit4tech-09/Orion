@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login — Orion</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/login.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+</head>
+<body class="login-body">
+
+  <div class="login-wrapper">
+
+    <!-- LOGO -->
+    <div class="login-logo">
+      Or<span>ion</span>
+    </div>
+
+    <!-- CARD -->
+    <div class="login-card">
+      <div class="login-icon">👋</div>
+      <h1>Hey, what's your name?</h1>
+      <p>Enter your name to access your personal dashboard</p>
+
+      <form class="login-form" id="login-form">
+        <input
+          type="text"
+          id="name-input"
+          placeholder="e.g. Basit"
+          maxlength="30"
+          autocomplete="off"
+          required
+        />
+        <button type="submit" class="btn-primary">Let Me In →</button>
+      </form>
+
+      <p class="login-note">Your data stays on your device. Private & personal.
+      <br>⚠️If you clear your browsing history your login details would be deleted also
+      </p>
+    </div>
+
+    <!-- EXISTING USERS -->
+    <div class="saved-users" id="saved-users"></div>
+
+  </div>
+
+  <script src="js/login.js"></script>
+
+</body>
+</html>

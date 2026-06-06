@@ -1,0 +1,272 @@
+/* ── PAGE HEADER ── */
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.page-header h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.page-header p {
+  font-size: 0.85rem;
+  color: var(--grey);
+  margin-top: 0.2rem;
+}
+
+/* ── PROGRESS ── */
+.progress-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.4rem;
+  min-width: 180px;
+}
+
+.progress-wrap span {
+  font-size: 0.82rem;
+  color: var(--grey);
+  font-weight: 600;
+}
+
+.progress-bar {
+  width: 180px;
+  height: 8px;
+  background-color: var(--blue-mid);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: var(--blue);
+  border-radius: 20px;
+  width: 0%;
+  transition: width 0.4s ease;
+}
+
+/* ── ADD SECTION ── */
+.add-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.add-section h2 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.add-form {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.add-form input,
+.add-form select {
+  padding: 0.85rem 1rem;
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  color: var(--text);
+  background-color: var(--blue-light);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.add-form input:focus,
+.add-form select:focus {
+  border-color: var(--blue);
+}
+
+.add-form .btn-primary {
+  width: auto;
+  white-space: nowrap;
+  padding: 0.85rem 1.5rem;
+}
+
+/* ── FILTER TABS ── */
+.filter-tabs {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.tab-btn {
+  background: none;
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  padding: 0.4rem 1.1rem;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.83rem;
+  color: var(--grey);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+
+.tab-btn:hover,
+.tab-btn.active {
+  background-color: var(--blue);
+  border-color: var(--blue);
+  color: var(--white);
+}
+
+/* ── ACTIVITY LIST ── */
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* ── ACTIVITY ITEM ── */
+.activity-item {
+  background-color: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 1.1rem 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: all 0.2s;
+}
+
+.activity-item:hover {
+  border-color: var(--blue);
+  box-shadow: 0 4px 16px rgba(59,130,246,0.08);
+}
+
+.activity-item.done {
+  opacity: 0.6;
+  border-color: #bbf7d0;
+  background-color: #f0fdf4;
+}
+
+/* ── Checkbox ── */
+.activity-check {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--blue);
+  background: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  transition: all 0.2s;
+}
+
+.activity-check.checked {
+  background-color: var(--success);
+  border-color: var(--success);
+  color: var(--white);
+}
+
+/* ── Activity Info ── */
+.activity-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.activity-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  transition: all 0.2s;
+}
+
+.activity-item.done .activity-name {
+  text-decoration: line-through;
+  color: var(--grey);
+}
+
+.activity-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.activity-category {
+  font-size: 0.75rem;
+  color: var(--blue);
+  background-color: var(--blue-light);
+  padding: 0.15rem 0.6rem;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.activity-time {
+  font-size: 0.75rem;
+  color: var(--grey);
+}
+
+/* ── Delete Button ── */
+.activity-delete {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  opacity: 0.4;
+  transition: opacity 0.2s;
+  padding: 0.3rem;
+}
+
+.activity-delete:hover { opacity: 1; }
+
+/* ── Empty State ── */
+.empty-activities {
+  text-align: center;
+  padding: 4rem 2rem;
+  background-color: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.empty-activities span { font-size: 3rem; }
+
+.empty-activities p {
+  font-size: 0.9rem;
+  color: var(--grey);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .add-form {
+    grid-template-columns: 1fr;
+  }
+
+  .add-form .btn-primary { width: 100%; }
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .progress-wrap {
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .progress-bar { width: 100%; }
+}
+
+@media (max-width: 480px) {
+  .page-header h1 { font-size: 1.3rem; }
+  .filter-tabs { flex-wrap: wrap; }
+}

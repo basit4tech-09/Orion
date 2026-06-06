@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Assistant — Orion</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" href="css/ai.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="dash-nav">
+    <div class="dash-nav-inner">
+      <a href="dashboard.html" class="logo">Or<span>ion</span></a>
+      <ul class="dash-links">
+        <li><a href="dashboard.html">🏠 Home</a></li>
+        <li><a href="activities.html">✅ Activities</a></li>
+        <li><a href="timer.html">⏱️ Timer</a></li>
+        <li><a href="ai.html" class="active">🤖 AI</a></li>
+      </ul>
+      <div class="dash-nav-right">
+        <span class="nav-username" id="nav-username"></span>
+        <button class="logout-btn" id="logout-btn">Logout</button>
+      </div>
+      <button class="hamburger" id="hamburger">&#9776;</button>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="dash-main">
+
+    <!-- HEADER -->
+    <section class="page-header">
+      <div>
+        <h1>Aura 🤖</h1>
+        <p>Chat, rate anime chapters and explore top genres</p>
+      </div>
+    </section>
+
+    <!-- AI TABS -->
+    <div class="timer-tabs">
+      <button class="tab-btn active" data-tab="chat">💬 Chat</button>
+      <button class="tab-btn" data-tab="rater">🎌 Anime Rater</button>
+      <button class="tab-btn" data-tab="top10">🏆 Top 10</button>
+    </div>
+
+    <!-- CHAT -->
+    <section class="ai-panel card" id="tab-chat">
+      <div class="chat-box" id="chat-box">
+        <div class="chat-msg ai-msg">
+          <span class="msg-avatar">🤖</span>
+          <div class="msg-bubble">
+            Hey <span id="chat-username"></span>! I'm your AI assistant.
+            Ask me anything — anime, life, work, or just chat. 😊
+          </div>
+        </div>
+      </div>
+      <form class="chat-form" id="chat-form">
+        <input
+          type="text"
+          id="chat-input"
+          placeholder="Ask me anything..."
+          autocomplete="off"
+          required
+        />
+        <button type="submit" class="btn-primary">Send</button>
+      </form>
+    </section>
+
+    <!-- ANIME RATER -->
+    <section class="ai-panel card hidden" id="tab-rater">
+      <div class="rater-form">
+        <h2>Rate an Anime Chapter 🎌</h2>
+        <p>Tell me the anime, chapter, and platform — I'll rate it for you.</p>
+        <div class="rater-inputs">
+          <input type="text" id="rater-anime"
+            placeholder="Anime name (e.g. One Piece)" />
+          <input type="text" id="rater-chapter"
+            placeholder="Chapter (e.g. Chapter 1100)" />
+          <select id="rater-platform">
+            <option value="" disabled selected>Publishing Platform</option>
+            <option>Viz Media</option>
+            <option>Manga Plus</option>
+            <option>Crunchyroll</option>
+            <option>Weekly Shonen Jump</option>
+            <option>Weekly Shonen Magazine</option>
+            <option>Other</option>
+          </select>
+          <button class="btn-primary" id="rater-btn">🎌 Rate This Chapter</button>
+        </div>
+      </div>
+      <div class="rater-result hidden" id="rater-result"></div>
+    </section>
+
+    <!-- TOP 10 -->
+    <section class="ai-panel card hidden" id="tab-top10">
+      <div class="top10-form">
+        <h2>Top 10 Anime by Genre 🏆</h2>
+        <p>Pick a genre and I'll give you the best 10 animes under it.</p>
+        <div class="top10-inputs">
+          <select id="top10-genre">
+            <option value="" disabled selected>Select a Genre</option>
+            <option>Action</option>
+            <option>Romance</option>
+            <option>Comedy</option>
+            <option>Horror</option>
+            <option>Fantasy</option>
+            <option>Sci-Fi</option>
+            <option>Sports</option>
+            <option>Slice of Life</option>
+            <option>Thriller</option>
+            <option>Martial Arts</option>
+            <option>Isekai</option>
+            <option>Supernatural</option>
+          </select>
+          <button class="btn-primary" id="top10-btn">🏆 Get Top 10</button>
+        </div>
+      </div>
+      <div class="top10-result hidden" id="top10-result"></div>
+    </section>
+
+  </main>
+
+  <script src="js/ai.js"></script>
+
+</body>
+</html>

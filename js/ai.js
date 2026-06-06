@@ -1,0 +1,232 @@
+// ── Guard ──
+const user = localStorage.getItem('activeUser');
+if (!user) window.location.href = 'login.html';
+
+document.getElementById('nav-username').textContent = user;
+document.getElementById('chat-username').textContent = user;
+
+// Hardcoded Key
+const WORKER_URL = 'https://orion-ai.basit4tech.workers.dev';
+const key = `user_${user}`;
+
+function getData() {
+  return JSON.parse(localStorage.getItem(key) || '{}');
+}
+function saveData(data) {
+  localStorage.setItem(key, JSON.stringify(data));
+}
+
+function trackChat() {
+  const data = getData();
+  data.aiChats = (data.aiChats || 0) + 1;
+  saveData(data);
+}
+
+// ── TABS ──
+document.querySelectorAll('.timer-tabs .tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.timer-tabs .tab-btn')
+      .forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.ai-panel')
+      .forEach(p => p.classList.add('hidden'));
+    document.getElementById(`tab-${btn.dataset.tab}`)
+      .classList.remove('hidden');
+  });
+});
+
+// ══════════════════════════════
+// ── CALL AI ──
+// ══════════════════════════════
+async function callAI(prompt, systemMsg = '') {
+  const messages = [];
+  if (systemMsg) messages.push({ role: 'system', content: systemMsg });
+  messages.push({ role: 'user', content: prompt });
+
+  // URL string placed explicitly inside fetch to prevent variable typo issues
+  const response = await fetch(WORKER_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      model: 'llama-3.1-8b-instant', 
+      messages: messages,
+      max_tokens: 1000
+    })
+  });
+
+  if (!response.ok) {
+    const errData = await response.json();
+    console.error("Groq API Error:", errData);
+    throw new Error("API call failed");
+  }
+
+  const data = await response.json();
+  return data.choices[0].message.content;
+}
+
+// ══════════════════════════════
+// ── CHAT ──
+// ══════════════════════════════
+const chatBox = document.getElementById('chat-box');
+const chatForm = document.getElementById('chat-form');
+const chatInput = document.getElementById('chat-input');
+const chatHistory = [
+  {
+    role: 'system',
+    content: `You are a friendly personal assistant for ${user}. Keep responses concise, warm and helpful.`
+  }
+];
+
+function addMsg(text, role) {
+  const div = document.createElement('div');
+  div.className = `chat-msg ${role === 'user' ? 'user-msg' : 'ai-msg'}`;
+  div.innerHTML = `
+    <span class="msg-avatar">${role === 'user' ? '👤' : '🤖'}</span>
+    <div class="msg-bubble">${text}</div>
+  `;
+  chatBox.appendChild(div);
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function showTyping() {
+  const div = document.createElement('div');
+  div.className = 'chat-msg ai-msg';
+  div.id = 'typing-indicator';
+  div.innerHTML = `
+    <span class="msg-avatar">🤖</span>
+    <div class="typing">
+      <span></span><span></span><span></span>
+    </div>
+  `;
+  chatBox.appendChild(div);
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function removeTyping() {
+  const t = document.getElementById('typing-indicator');
+  if (t) t.remove();
+}
+
+chatForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const msg = chatInput.value.trim();
+  if (!msg) return;
+
+  addMsg(msg, 'user');
+  chatInput.value = '';
+  chatHistory.push({ role: 'user', content: msg });
+  showTyping();
+
+  try {
+    // Explicit URL placed here as well
+    const response = await fetch(WORKER_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'llama-3.1-8b-instant',
+        messages: chatHistory,
+        max_tokens: 1000
+      })
+    });
+
+    if (!response.ok) {
+      const errData = await response.json();
+      console.error("Groq Chat Error details:", errData);
+      throw new Error("Chat network response was not ok");
+    }
+
+    const data = await response.json();
+    const reply = data.choices[0].message.content;
+    chatHistory.push({ role: 'assistant', content: reply });
+    removeTyping();
+    addMsg(reply, 'ai');
+    trackChat();
+
+  } catch (err) {
+    console.error("Caught Chat Error:", err);
+    removeTyping();
+    addMsg('Sorry something went wrong. Try again! 😅', 'ai');
+  }
+});
+
+// ══════════════════════════════
+// ── ANIME RATER ──
+// ══════════════════════════════
+document.getElementById('rater-btn').addEventListener('click', async () => {
+  const anime = document.getElementById('rater-anime').value.trim();
+  const chapter = document.getElementById('rater-chapter').value.trim();
+  const platform = document.getElementById('rater-platform').value;
+  const result = document.getElementById('rater-result');
+
+  if (!anime || !chapter || !platform) {
+    alert('Please fill in all fields!');
+    return;
+  }
+
+  result.classList.remove('hidden');
+  result.innerHTML = '<p class="ai-loading">🎌 Rating chapter... please wait</p>';
+
+  try {
+    const reply = await callAI(
+      `Rate the anime chapter with the following details:
+      - Anime: ${anime}
+      - Chapter: ${chapter}
+      - Publishing Platform: ${platform}
+      
+      Give a rating out of 10, explain the rating with 3-4 sentences covering:
+      plot progression, art quality, character development, and overall impact.
+      Format it clearly with the rating first, then the review.`
+    );
+    result.textContent = reply;
+    trackChat();
+  } catch (err) {
+    result.textContent = 'Something went wrong. Try again! 😅';
+  }
+});
+
+// ══════════════════════════════
+// ── TOP 10 ──
+// ══════════════════════════════
+document.getElementById('top10-btn').addEventListener('click', async () => {
+  const genre = document.getElementById('top10-genre').value;
+  const result = document.getElementById('top10-result');
+
+  if (!genre) {
+    alert('Please select a genre!');
+    return;
+  }
+
+  result.classList.remove('hidden');
+  result.innerHTML = '<p class="ai-loading">🏆 Building your top 10... please wait</p>';
+
+  try {
+    const reply = await callAI(
+      `Give me the top 10 anime of all time in the ${genre} genre.
+      For each anime include:
+      - Rank number
+      - Anime name
+      - One sentence about why it's on the list
+      - A rating out of 10
+      Format it as a clean numbered list.`
+    );
+    result.textContent = reply;
+    trackChat();
+  } catch (err) {
+    result.textContent = 'Something went wrong. Try again!😅 ';
+  }
+});
+
+// ── Logout ──
+document.getElementById('logout-btn').addEventListener('click', () => {
+  localStorage.removeItem('activeUser');
+  window.location.href = 'login.html';
+});
+
+// ── Hamburger ──
+document.getElementById('hamburger').addEventListener('click', () => {
+  document.querySelector('.dash-links').classList.toggle('open');
+});
