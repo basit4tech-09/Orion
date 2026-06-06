@@ -1,3 +1,9 @@
+// ── Loader ──
+window.addEventListener('load', () => {
+  const loader = document.getElementById('loader');
+  loader.classList.add('hide');
+  setTimeout(() => loader.remove(), 400);
+});
 // ── Guard ──
 const user = localStorage.getItem('activeUser');
 if (!user) window.location.href = 'login.html';
@@ -77,10 +83,10 @@ const chatHistory = [
 function addMsg(text, role) {
   const div = document.createElement('div');
   div.className = `chat-msg ${role === 'user' ? 'user-msg' : 'ai-msg'}`;
-  div.innerHTML = `
-    <span class="msg-avatar">${role === 'user' ? '👤' : '🤖'}</span>
-    <div class="msg-bubble">${text}</div>
-  `;
+ div.innerHTML = `
+  <span class="msg-avatar">${role === 'user' ? '👤' : '🤖'}</span>
+  <div class="msg-bubble">${role === 'user' ? text : parseMarkdown(text)}</div>
+`;
   chatBox.appendChild(div);
   chatBox.scrollTop = chatBox.scrollHeight;
 }
@@ -158,7 +164,8 @@ document.getElementById('rater-btn').addEventListener('click', async () => {
       plot progression, art quality, character development, and overall impact.
       Format it clearly with the rating first, then the review.`
     );
-    result.textContent = reply;
+    result.innerHTML = parseMarkdown(reply);
+
     trackChat();
   } catch (err) {
     console.error("Rater Error:", err);
@@ -191,13 +198,27 @@ document.getElementById('top10-btn').addEventListener('click', async () => {
       - A rating out of 10
       Format it as a clean numbered list.`
     );
-    result.textContent = reply;
+    result.innerHTML = parseMarkdown(reply);
+
     trackChat();
   } catch (err) {
     console.error("Top 10 Error:", err);
     result.textContent = 'Something went wrong. Try again!';
   }
 });
+function parseMarkdown(text) {
+  return text
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    .replace(/^### (.*$)/gm, '<h3>$1</h3>')
+    .replace(/^## (.*$)/gm, '<h2>$1</h2>')
+    .replace(/^# (.*$)/gm, '<h1>$1</h1>')
+    .replace(/^\* (.*$)/gm, '<li>$1</li>')
+    .replace(/^\d+\. (.*$)/gm, '<li>$1</li>')
+    .replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>')
+    .replace(/\n\n/g, '<br><br>')
+    .replace(/\n/g, '<br>');
+}
 
 // ── Logout ──
 document.getElementById('logout-btn').addEventListener('click', () => {

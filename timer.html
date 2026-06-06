@@ -1,119 +1,145 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Timer — Orion</title>
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/dashboard.css" />
-  <link rel="stylesheet" href="css/timer.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet"/>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Timer — Orion</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <link rel="stylesheet" href="css/timer.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
 
-  <!-- NAVBAR -->
-  <nav class="dash-nav">
-    <div class="dash-nav-inner">
-      <a href="dashboard.html" class="logo">Or<span>ion</span></a>
-      <ul class="dash-links">
-        <li><a href="dashboard.html">🏠 Home</a></li>
-        <li><a href="activities.html">✅ Activities</a></li>
-        <li><a href="timer.html" class="active">⏱️ Timer</a></li>
-        <li><a href="ai.html">🤖 AI</a></li>
-      </ul>
-      <div class="dash-nav-right">
-        <span class="nav-username" id="nav-username"></span>
-        <button class="logout-btn" id="logout-btn">Logout</button>
-      </div>
-      <button class="hamburger" id="hamburger">&#9776;</button>
-    </div>
-  </nav>
-
-  <!-- MAIN -->
-  <main class="dash-main">
-
-    <!-- HEADER -->
-    <section class="page-header">
-      <div>
-        <h1>Timer & Alarm ⏱️</h1>
-        <p>Countdown, stopwatch and alarms — all in one place</p>
-      </div>
-    </section>
-
-    <!-- TABS -->
-    <div class="timer-tabs">
-      <button class="tab-btn active" data-tab="countdown">⏳ Countdown</button>
-      <button class="tab-btn" data-tab="stopwatch">⏱️ Stopwatch</button>
-      <button class="tab-btn" data-tab="alarm">🔔 Alarm</button>
+  <body>
+    <!-- LOADER -->
+    <div class="loader-overlay" id="loader">
+      <div class="loader-spinner"></div>
     </div>
 
-    <!-- COUNTDOWN -->
-    <section class="timer-panel card" id="tab-countdown">
-      <div class="countdown-display" id="countdown-display">
-        00:00:00
-      </div>
-      <div class="countdown-inputs">
-        <div class="time-input-group">
-          <input type="number" id="cd-hours" min="0" max="23"
-            placeholder="00" value="0"/>
-          <label>hrs</label>
+    <!-- NAVBAR -->
+    <nav class="dash-nav">
+      <div class="dash-nav-inner">
+        <a href="dashboard.html" class="logo">Or<span>ion</span></a>
+        <ul class="dash-links">
+          <li><a href="dashboard.html">🏠 Home</a></li>
+          <li><a href="activities.html">✅ Activities</a></li>
+          <li><a href="timer.html" class="active">⏱️ Timer</a></li>
+          <li><a href="ai.html">🤖 AI</a></li>
+        </ul>
+        <div class="dash-nav-right">
+          <span class="nav-username" id="nav-username"></span>
+          <button class="logout-btn" id="logout-btn">Logout</button>
         </div>
-        <span class="time-sep">:</span>
-        <div class="time-input-group">
-          <input type="number" id="cd-minutes" min="0" max="59"
-            placeholder="00" value="0"/>
-          <label>min</label>
+        <button class="hamburger" id="hamburger">&#9776;</button>
+      </div>
+    </nav>
+
+    <!-- MAIN -->
+    <main class="dash-main">
+      <!-- HEADER -->
+      <section class="page-header">
+        <div>
+          <h1>Timer & Alarm ⏱️</h1>
+          <p>Countdown, stopwatch and alarms — all in one place</p>
         </div>
-        <span class="time-sep">:</span>
-        <div class="time-input-group">
-          <input type="number" id="cd-seconds" min="0" max="59"
-            placeholder="00" value="0"/>
-          <label>sec</label>
+      </section>
+
+      <!-- TABS -->
+      <div class="timer-tabs">
+        <button class="tab-btn active" data-tab="countdown">
+          ⏳ Countdown
+        </button>
+        <button class="tab-btn" data-tab="stopwatch">⏱️ Stopwatch</button>
+        <button class="tab-btn" data-tab="alarm">🔔 Alarm</button>
+      </div>
+
+      <!-- COUNTDOWN -->
+      <section class="timer-panel card" id="tab-countdown">
+        <div class="countdown-display" id="countdown-display">00:00:00</div>
+        <div class="countdown-inputs">
+          <div class="time-input-group">
+            <input
+              type="number"
+              id="cd-hours"
+              min="0"
+              max="23"
+              placeholder="00"
+              value="0"
+            />
+            <label>hrs</label>
+          </div>
+          <span class="time-sep">:</span>
+          <div class="time-input-group">
+            <input
+              type="number"
+              id="cd-minutes"
+              min="0"
+              max="59"
+              placeholder="00"
+              value="0"
+            />
+            <label>min</label>
+          </div>
+          <span class="time-sep">:</span>
+          <div class="time-input-group">
+            <input
+              type="number"
+              id="cd-seconds"
+              min="0"
+              max="59"
+              placeholder="00"
+              value="0"
+            />
+            <label>sec</label>
+          </div>
         </div>
-      </div>
-      <div class="timer-controls">
-        <button class="btn-primary" id="cd-start">▶ Start</button>
-        <button class="btn-secondary" id="cd-pause">⏸ Pause</button>
-        <button class="btn-secondary" id="cd-reset">↺ Reset</button>
-      </div>
-      <p class="timer-note" id="cd-note"></p>
-    </section>
-
-    <!-- STOPWATCH -->
-    <section class="timer-panel card hidden" id="tab-stopwatch">
-      <div class="countdown-display" id="sw-display">
-        00:00:00
-      </div>
-      <div class="timer-controls">
-        <button class="btn-primary" id="sw-start">▶ Start</button>
-        <button class="btn-secondary" id="sw-pause">⏸ Pause</button>
-        <button class="btn-secondary" id="sw-reset">↺ Reset</button>
-        <button class="btn-secondary" id="sw-lap">🏁 Lap</button>
-      </div>
-      <div class="lap-list" id="lap-list"></div>
-    </section>
-
-    <!-- ALARM -->
-    <section class="timer-panel card hidden" id="tab-alarm">
-      <div class="alarm-form">
-        <div class="alarm-input-row">
-          <input type="time" id="alarm-time"/>
-          <input type="text" id="alarm-label"
-            placeholder="Alarm label (e.g. Wake up)" maxlength="40"/>
-          <button class="btn-primary" id="add-alarm">+ Set Alarm</button>
+        <div class="timer-controls">
+          <button class="btn-primary" id="cd-start">▶ Start</button>
+          <button class="btn-secondary" id="cd-pause">⏸ Pause</button>
+          <button class="btn-secondary" id="cd-reset">↺ Reset</button>
         </div>
-      </div>
-      <div class="alarm-list" id="alarm-list">
-        <div class="empty-activities">
-          <span>🔔</span>
-          <p>No alarms set yet.</p>
+        <p class="timer-note" id="cd-note"></p>
+      </section>
+
+      <!-- STOPWATCH -->
+      <section class="timer-panel card hidden" id="tab-stopwatch">
+        <div class="countdown-display" id="sw-display">00:00:00</div>
+        <div class="timer-controls">
+          <button class="btn-primary" id="sw-start">▶ Start</button>
+          <button class="btn-secondary" id="sw-pause">⏸ Pause</button>
+          <button class="btn-secondary" id="sw-reset">↺ Reset</button>
+          <button class="btn-secondary" id="sw-lap">🏁 Lap</button>
         </div>
-      </div>
-    </section>
+        <div class="lap-list" id="lap-list"></div>
+      </section>
 
-  </main>
-
-  <script src="js/timer.js"></script>
-
-</body>
+      <!-- ALARM -->
+      <section class="timer-panel card hidden" id="tab-alarm">
+        <div class="alarm-form">
+          <div class="alarm-input-row">
+            <input type="time" id="alarm-time" />
+            <input
+              type="text"
+              id="alarm-label"
+              placeholder="Alarm label (e.g. Wake up)"
+              maxlength="40"
+            />
+            <button class="btn-primary" id="add-alarm">+ Set Alarm</button>
+          </div>
+        </div>
+        <div class="alarm-list" id="alarm-list">
+          <div class="empty-activities">
+            <span>🔔</span>
+            <p>No alarms set yet.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+    <a href="ai.html" class="float-ai" id="floatAI">🤖</a>
+    <script src="js/floatai.js"></script>
+    <script src="js/timer.js"></script>
+  </body>
 </html>

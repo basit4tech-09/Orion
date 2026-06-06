@@ -1,3 +1,9 @@
+// ── Loader ──
+window.addEventListener('load', () => {
+  const loader = document.getElementById('loader');
+  loader.classList.add('hide');
+  setTimeout(() => loader.remove(), 400);
+});
 // ── On form submit ──
 const form = document.getElementById('login-form');
 const input = document.getElementById('name-input');

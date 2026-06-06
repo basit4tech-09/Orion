@@ -1,3 +1,9 @@
+// ── Loader ──
+window.addEventListener('load', () => {
+  const loader = document.getElementById('loader');
+  loader.classList.add('hide');
+  setTimeout(() => loader.remove(), 400);
+});
 // ── Guard ──
 const user = localStorage.getItem('activeUser');
 if (!user) window.location.href = 'login.html';
@@ -61,19 +67,32 @@ document.getElementById('cd-start').addEventListener('click', () => {
   data.timersSet = (data.timersSet || 0) + 1;
   saveData(data);
 
-  cdRunning = true;
-  document.getElementById('cd-note').textContent = '⏳ Countdown running...';
-
+ cdRunning = true;
+document.getElementById('cd-note').textContent = '⏳ Countdown running...';
+document.getElementById('countdown-display').classList.add('running');
   cdInterval = setInterval(() => {
-    cdRemaining--;
+  cdRemaining--;
     updateCdDisplay();
-    if (cdRemaining <= 0) {
-      clearInterval(cdInterval);
-      cdRunning = false;
-      document.getElementById('cd-note').textContent = '✅ Time is up!';
-      document.getElementById('countdown-display').textContent = '00:00:00';
-      alert('⏰ Time is up!');
-    }
+   if (cdRemaining <= 0) {
+  clearInterval(cdInterval);
+  cdRunning = false;
+  document.getElementById('countdown-display').classList.remove('running');
+  document.getElementById('cd-note').textContent = '✅ Time is up!';
+  document.getElementById('countdown-display').textContent = '00:00:00';
+
+  // ── Sound effect ──
+  const ctx = new AudioContext();
+  const oscillator = ctx.createOscillator();
+  const gain = ctx.createGain();
+  oscillator.connect(gain);
+  gain.connect(ctx.destination);
+  oscillator.type = 'sine';
+  oscillator.frequency.setValueAtTime(880, ctx.currentTime);
+  gain.gain.setValueAtTime(1, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.5);
+  oscillator.start(ctx.currentTime);
+  oscillator.stop(ctx.currentTime + 1.5);
+}
   }, 1000);
 });
 

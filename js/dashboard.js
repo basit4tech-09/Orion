@@ -1,3 +1,9 @@
+// ── Loader ──
+window.addEventListener('load', () => {
+  const loader = document.getElementById('loader');
+  loader.classList.add('hide');
+  setTimeout(() => loader.remove(), 400);
+});
 // ── Guard — redirect if no user ──
 const user = localStorage.getItem('activeUser');
 if (!user) window.location.href = 'login.html';

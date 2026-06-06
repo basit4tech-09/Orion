@@ -213,6 +213,15 @@
 }
 
 .alarm-delete:hover { opacity: 1; }
+/* ── PULSE ── */
+.countdown-display.running {
+  animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.03); opacity: 0.85; }
+}
 
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
