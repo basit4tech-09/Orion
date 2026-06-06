@@ -5,8 +5,9 @@ if (!user) window.location.href = 'login.html';
 document.getElementById('nav-username').textContent = user;
 document.getElementById('chat-username').textContent = user;
 
-// Hardcoded Key
-const WORKER_URL = 'https://orion-ai.basit4tech.workers.dev';
+// 🟢 Netlify Secure Endpoint (API Key is hidden safely on the backend)
+const NETLIFY_API_URL = '/.netlify/functions/chat';
+
 const key = `user_${user}`;
 
 function getData() {
@@ -36,30 +37,24 @@ document.querySelectorAll('.timer-tabs .tab-btn').forEach(btn => {
 });
 
 // ══════════════════════════════
-// ── CALL AI ──
+// ── CALL AI (CENTRAL ROUTER) ──
 // ══════════════════════════════
 async function callAI(prompt, systemMsg = '') {
   const messages = [];
   if (systemMsg) messages.push({ role: 'system', content: systemMsg });
   messages.push({ role: 'user', content: prompt });
 
-  // URL string placed explicitly inside fetch to prevent variable typo issues
-  const response = await fetch(WORKER_URL, {
+  // Sends the payload to your backend Netlify Function
+  const response = await fetch(NETLIFY_API_URL, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     },
-    body: JSON.stringify({
-      model: 'llama-3.1-8b-instant', 
-      messages: messages,
-      max_tokens: 1000
-    })
+    body: JSON.stringify({ messages: messages })
   });
 
   if (!response.ok) {
-    const errData = await response.json();
-    console.error("Groq API Error:", errData);
-    throw new Error("API call failed");
+    throw new Error(`Netlify function error: ${response.status}`);
   }
 
   const data = await response.json();
@@ -67,7 +62,7 @@ async function callAI(prompt, systemMsg = '') {
 }
 
 // ══════════════════════════════
-// ── CHAT ──
+// ── CHATBOX ──
 // ══════════════════════════════
 const chatBox = document.getElementById('chat-box');
 const chatForm = document.getElementById('chat-form');
@@ -120,34 +115,16 @@ chatForm.addEventListener('submit', async (e) => {
   showTyping();
 
   try {
-    // Explicit URL placed here as well
-    const response = await fetch(WORKER_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'llama-3.1-8b-instant',
-        messages: chatHistory,
-        max_tokens: 1000
-      })
-    });
-
-    if (!response.ok) {
-      const errData = await response.json();
-      console.error("Groq Chat Error details:", errData);
-      throw new Error("Chat network response was not ok");
-    }
-
-    const data = await response.json();
-    const reply = data.choices[0].message.content;
+    // Routes the current text prompt straight through the global callAI system
+    const reply = await callAI(msg);
+    
     chatHistory.push({ role: 'assistant', content: reply });
     removeTyping();
     addMsg(reply, 'ai');
     trackChat();
 
   } catch (err) {
-    console.error("Caught Chat Error:", err);
+    console.error("Chat Error:", err);
     removeTyping();
     addMsg('Sorry something went wrong. Try again! 😅', 'ai');
   }
@@ -184,7 +161,8 @@ document.getElementById('rater-btn').addEventListener('click', async () => {
     result.textContent = reply;
     trackChat();
   } catch (err) {
-    result.textContent = 'Something went wrong. Try again! 😅';
+    console.error("Rater Error:", err);
+    result.textContent = 'Something went wrong. Try again!';
   }
 });
 
@@ -216,7 +194,8 @@ document.getElementById('top10-btn').addEventListener('click', async () => {
     result.textContent = reply;
     trackChat();
   } catch (err) {
-    result.textContent = 'Something went wrong. Try again!😅 ';
+    console.error("Top 10 Error:", err);
+    result.textContent = 'Something went wrong. Try again!';
   }
 });
 
