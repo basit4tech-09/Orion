@@ -230,7 +230,22 @@ function checkAlarms() {
 
   alarms.forEach(a => {
     if (a.time === currentTime && !a.fired) {
-      alert(`🔔 Alarm: ${a.label || 'Time is up!'}`);
+     // ── Alarm sound ──
+const ctx = new AudioContext();
+const oscillator = ctx.createOscillator();
+const gain = ctx.createGain();
+oscillator.connect(gain);
+gain.connect(ctx.destination);
+oscillator.type = 'sine';
+oscillator.frequency.setValueAtTime(660, ctx.currentTime);
+oscillator.frequency.setValueAtTime(880, ctx.currentTime + 0.3);
+oscillator.frequency.setValueAtTime(660, ctx.currentTime + 0.6);
+gain.gain.setValueAtTime(1, ctx.currentTime);
+gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.5);
+oscillator.start(ctx.currentTime);
+oscillator.stop(ctx.currentTime + 1.5);
+
+alert(`🔔 Alarm: ${a.label || 'Time is up!'}`);
       a.fired = true;
       updated = true;
     }
@@ -248,6 +263,13 @@ setInterval(checkAlarms, 30000);
 document.getElementById('logout-btn').addEventListener('click', () => {
   localStorage.removeItem('activeUser');
   window.location.href = 'login.html';
+});
+// ── Warn before leaving if timer is running ──
+window.addEventListener('beforeunload', (e) => {
+  if (cdRunning || swRunning) {
+    e.preventDefault();
+    e.returnValue = '';
+  }
 });
 
 // ── Hamburger ──
