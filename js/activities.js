@@ -6,7 +6,7 @@ window.addEventListener('load', () => {
 });
 // ── Guard ──
 const user = localStorage.getItem('activeUser');
-if (!user) window.location.href = 'login.html';
+if (!user) window.location.href = 'index.html';
 // ── Theme toggle ──
 const themeToggle = document.getElementById('theme-toggle');
 const savedTheme = localStorage.getItem('theme');
@@ -156,7 +156,7 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 // ── Logout ──
 document.getElementById('logout-btn').addEventListener('click', () => {
   localStorage.removeItem('activeUser');
-  window.location.href = 'login.html';
+  window.location.href = 'index.html';
 });
 
 // ── Hamburger ──

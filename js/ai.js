@@ -6,7 +6,7 @@ window.addEventListener('load', () => {
 });
 // ── Guard ──
 const user = localStorage.getItem('activeUser');
-if (!user) window.location.href = 'login.html';
+if (!user) window.location.href = 'index.html';
 
 document.getElementById('nav-username').textContent = user;
 document.getElementById('chat-username').textContent = user;
@@ -251,7 +251,7 @@ function parseMarkdown(text) {
 // ── Logout ──
 document.getElementById('logout-btn').addEventListener('click', () => {
   localStorage.removeItem('activeUser');
-  window.location.href = 'login.html';
+  window.location.href = 'index.html';
 });
 
 // ── Hamburger ──
