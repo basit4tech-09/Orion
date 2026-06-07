@@ -99,6 +99,49 @@ ul { list-style: none; }
   transition: transform 0.2s, box-shadow 0.2s;
   user-select: none;
 }
+/* ── LIGHT THEME ── */
+body.light {
+  background-color: #f0f6ff;
+  color: #1a1a2e;
+}
+
+body.light .dash-nav {
+  background-color: #ffffff;
+}
+
+body.light .stat-card,
+body.light .action-card,
+body.light .recent-list,
+body.light .activity-item,
+body.light .timer-panel,
+body.light .ai-panel,
+body.light .login-card {
+  background-color: #ffffff;
+  border-color: #dbeafe;
+}
+
+body.light .chat-box {
+  background-color: #eff6ff;
+}
+
+body.light .ai-msg .msg-bubble {
+  background-color: #ffffff;
+}
+
+/* ── TOGGLE BUTTON ── */
+.theme-toggle {
+  background: none;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 0.35rem 0.7rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.theme-toggle:hover {
+  border-color: var(--blue);
+}
 
 .float-ai:hover {
   transform: scale(1.1);

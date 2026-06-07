@@ -7,6 +7,21 @@ window.addEventListener('load', () => {
 // ── Guard ──
 const user = localStorage.getItem('activeUser');
 if (!user) window.location.href = 'login.html';
+// ── Theme toggle ──
+const themeToggle = document.getElementById('theme-toggle');
+const savedTheme = localStorage.getItem('theme');
+
+if (savedTheme === 'light') {
+  document.body.classList.add('light');
+  themeToggle.textContent = '☀️';
+}
+
+themeToggle.addEventListener('click', () => {
+  document.body.classList.toggle('light');
+  const isLight = document.body.classList.contains('light');
+  themeToggle.textContent = isLight ? '☀️' : '🌙';
+  localStorage.setItem('theme', isLight ? 'light' : 'dark');
+});
 
 // ── Setup ──
 document.getElementById('nav-username').textContent = user;

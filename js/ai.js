@@ -10,6 +10,21 @@ if (!user) window.location.href = 'login.html';
 
 document.getElementById('nav-username').textContent = user;
 document.getElementById('chat-username').textContent = user;
+// ── Theme toggle ──
+const themeToggle = document.getElementById('theme-toggle');
+const savedTheme = localStorage.getItem('theme');
+
+if (savedTheme === 'light') {
+  document.body.classList.add('light');
+  themeToggle.textContent = '☀️';
+}
+
+themeToggle.addEventListener('click', () => {
+  document.body.classList.toggle('light');
+  const isLight = document.body.classList.contains('light');
+  themeToggle.textContent = isLight ? '☀️' : '🌙';
+  localStorage.setItem('theme', isLight ? 'light' : 'dark');
+});
 
 // 🟢 Netlify Secure Endpoint (API Key is hidden safely on the backend)
 const NETLIFY_API_URL = '/.netlify/functions/chat';
@@ -164,8 +179,7 @@ document.getElementById('rater-btn').addEventListener('click', async () => {
       plot progression, art quality, character development, and overall impact.
       Format it clearly with the rating first, then the review.`
     );
-    result.innerHTML = parseMarkdown(reply);
-
+    result.innerHTML = renderStars(parseMarkdown(reply));
     trackChat();
   } catch (err) {
     console.error("Rater Error:", err);
@@ -206,6 +220,20 @@ document.getElementById('top10-btn').addEventListener('click', async () => {
     result.textContent = 'Something went wrong. Try again!';
   }
 });
+function renderStars(text) {
+  // Find rating pattern like 8/10 or 7.5/10
+  return text.replace(/(\d+(\.\d+)?)\/10/g, (match, num) => {
+    const rating = Math.round(parseFloat(num));
+    const filled = '⭐'.repeat(rating);
+    const empty = '★'.repeat(10 - rating);
+    return `
+      <div class="star-rating">
+        <span class="stars">${filled}${empty}</span>
+        <span class="rating-num">${num}/10</span>
+      </div>
+    `;
+  });
+}
 function parseMarkdown(text) {
   return text
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')

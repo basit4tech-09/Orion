@@ -7,10 +7,38 @@ window.addEventListener('load', () => {
 // ── Guard — redirect if no user ──
 const user = localStorage.getItem('activeUser');
 if (!user) window.location.href = 'login.html';
+// ── Theme toggle ──
+const themeToggle = document.getElementById('theme-toggle');
+const savedTheme = localStorage.getItem('theme');
+
+if (savedTheme === 'light') {
+  document.body.classList.add('light');
+  themeToggle.textContent = '☀️';
+}
+
+themeToggle.addEventListener('click', () => {
+  document.body.classList.toggle('light');
+  const isLight = document.body.classList.contains('light');
+  themeToggle.textContent = isLight ? '☀️' : '🌙';
+  localStorage.setItem('theme', isLight ? 'light' : 'dark');
+});
 
 // ── Show username ──
 document.getElementById('nav-username').textContent = user;
-document.getElementById('welcome-msg').textContent = `Welcome back, ${user} 👋`;
+// ── Random welcome messages ──
+const greetings = [
+  `Welcome back, ${user} 👋`,
+  `Good to see you, ${user} 😎`,
+  `Hey ${user}, ready to crush it? 🔥`,
+  `What's good, ${user}? 🤙`,
+  `Back again, ${user}? Let's go 🚀`,
+  `Aye ${user}, you're back! 💪`,
+  `${user} is in the building 👑`,
+  `Rise and grind, ${user} ⚡`,
+];
+
+const random = greetings[Math.floor(Math.random() * greetings.length)];
+document.getElementById('welcome-msg').textContent = random;
 
 // ── Show date ──
 const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
