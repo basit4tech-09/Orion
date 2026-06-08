@@ -60,12 +60,18 @@ document.querySelectorAll('.timer-tabs .tab-btn').forEach(btn => {
 // ══════════════════════════════
 // ── CALL AI (CENTRAL ROUTER) ──
 // ══════════════════════════════
-async function callAI(prompt, systemMsg = '') {
-  const messages = [];
-  if (systemMsg) messages.push({ role: 'system', content: systemMsg });
-  messages.push({ role: 'user', content: prompt });
+async function callAI(promptOrHistory, systemMsg = '') {
+  let messages = [];
 
-  // Sends the payload to your backend Netlify Function
+  // 🟢 Check if we are passing the whole history array (from the chatbox)
+  if (Array.isArray(promptOrHistory)) {
+    messages = promptOrHistory;
+  } else {
+    // Fallback for your Anime Rater & Top 10 buttons which just send a single prompt string
+    if (systemMsg) messages.push({ role: 'system', content: systemMsg });
+    messages.push({ role: 'user', content: promptOrHistory });
+  }
+
   const response = await fetch(NETLIFY_API_URL, {
     method: 'POST',
     headers: {
@@ -137,8 +143,7 @@ chatForm.addEventListener('submit', async (e) => {
 
   try {
     // Routes the current text prompt straight through the global callAI system
-    const reply = await callAI(msg);
-    
+    const reply = await callAI(chatHistory);
     chatHistory.push({ role: 'assistant', content: reply });
     removeTyping();
     addMsg(reply, 'ai');
